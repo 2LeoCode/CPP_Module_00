@@ -6,7 +6,7 @@
 /*   By: lsuardi <lsuardi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 00:02:51 by lsuardi           #+#    #+#             */
-/*   Updated: 2021/01/14 00:02:52 by lsuardi          ###   ########.fr       */
+/*   Updated: 2021/01/14 00:11:58 by lsuardi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@ PhoneBook::PhoneBook(std::string pass, contact **contact) : _pass(pass), _contac
 
 	do
 	{
-		std::cout << ">Enter password:";
+		std::cout << ">ENTER PASSWORD:";
 		std::getline(std::cin, password);
 		if (quit)
 			return ;
 		if (password.compare(_pass))
-			std::cout << ">Wrong password" << std::endl;
+			std::cout << "WRONG PASSWORD" << std::endl;
 	}
 	while (password.compare(_pass));
 }

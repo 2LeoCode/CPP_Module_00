@@ -6,7 +6,7 @@
 /*   By: lsuardi <lsuardi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 00:23:45 by lsuardi           #+#    #+#             */
-/*   Updated: 2021/01/14 00:07:27 by lsuardi          ###   ########.fr       */
+/*   Updated: 2021/01/14 00:12:26 by lsuardi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ std::string		decrypt(encryptKey encryptionKey)
 void			sigHandler(int)
 {
 	quit = true;
-	std::cout << std::endl << ">INTERRUPT" << std::endl;
+	std::cout << std::endl << "INTERRUPT" << std::endl;
 	close(0);
 }
 
