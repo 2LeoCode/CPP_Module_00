@@ -6,14 +6,15 @@
 #    By: lsuardi <lsuardi@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/11 23:30:39 by lsuardi           #+#    #+#              #
-#    Updated: 2021/01/14 00:06:50 by lsuardi          ###   ########.fr        #
+#    Updated: 2021/01/14 21:34:58 by lsuardi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME =		PhoneBook
 
 SRC =		main.cpp\
-			PhoneBook.cpp
+			PhoneBook.cpp\
+			Contact.cpp
 OBJ =		$(SRC:.cpp=.o)
 
 CFLAGS =	-Wall -Wextra -Werror
@@ -41,8 +42,9 @@ clean:
 
 fclean: clean
 	@(\
-		rm -f $(NAME);\
-		echo 'Removed $(NAME)'\
+		rm -f $(NAME) PhoneBook.data;\
+		echo 'Removed $(NAME)';\
+		echo 'Removed PhoneBook.data'\
 	)
 
 re: fclean all

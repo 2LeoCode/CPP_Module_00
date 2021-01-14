@@ -6,13 +6,31 @@
 /*   By: lsuardi <lsuardi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 00:23:45 by lsuardi           #+#    #+#             */
-/*   Updated: 2021/01/14 00:12:26 by lsuardi          ###   ########.fr       */
+/*   Updated: 2021/01/14 20:24:18 by lsuardi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PhoneBook.hpp"
+#include "Contact.hpp"
+#include "header.hpp"
 
 bool quit = false;
+
+bool			ft::strIsAlpha(std::string s)
+{
+	for (std::string::iterator it = s.begin(); it != s.end(); it++)
+		if (!std::isalpha(*it))
+			return (false);
+	return (true);
+}
+
+bool			ft::strIsDigit(std::string s)
+{
+	for (std::string::iterator it = s.begin(); it != s.end(); it++)
+		if (!std::isdigit(*it))
+			return (false);
+	return (true);
+}
 
 std::string		ft::strToUpper(std::string &s)
 {
@@ -92,7 +110,7 @@ int				main(void)
 	std::ofstream		out;
 	std::string			pass, cmd;
 	encryptKey			key;
-	contact				**contacts = new contact*[8];
+	Contact				**contacts = new Contact*[8];
 
 	for (int i = 0; i < 8; i++)
 		contacts[i] = nullptr;
@@ -101,12 +119,12 @@ int				main(void)
 	{
 		do
 		{
-			std::cout << ">Choose a password:";
+			std::cout << ">CHOOSE A PASSWORD:";
 			std::getline(std::cin, pass);
 			if (quit)
 				return (0);
 			if (pass.length() < 5)
-				std::cout << ">Password must be at least 5 characters long" << std::endl;
+				std::cout << ">PASSWORD MUST BE AT LEAST 5 CHARACTERS LONG" << std::endl;
 		}
 		while (pass.length() < 5);
 		key = encrypt(pass);
@@ -124,11 +142,7 @@ int				main(void)
 			if (in.eof())
 				break ;
 			in.seekg(-1, in.cur);
-			contacts[i] = new contact;
-			in.read((char*)&contacts[i]->name.size, sizeof(std::uint32_t));
-			contacts[i]->name.key = new std::uint64_t[contacts[i]->name.size];
-			in.read((char*)contacts[i]->name.key, sizeof(std::uint64_t) * contacts[i]->name.size);
-			in.read((char*)&contacts[i]->number, sizeof(std::uint32_t));
+			contacts[i] = new Contact(&in);
 		}
 	}
 	in.close();
@@ -147,10 +161,46 @@ int				main(void)
 	delete[] key.key;
 	for (int i = 0; (i < 8) && contacts[i]; i++)
 	{
-		out.write((char*)&contacts[i]->name.size, sizeof(std::uint32_t));
-		out.write((char*)contacts[i]->name.key, sizeof(std::uint64_t) * contacts[i]->name.size);
-		out.write((char*)&contacts[i]->number, sizeof(std::uint32_t));
-		delete[] contacts[i]->name.key;
+		encryptKey	eKey = encrypt(contacts[i]->getFirstName());
+		out.write((char*)&eKey.size, sizeof(std::uint32_t));
+		out.write((char*)eKey.key, sizeof(std::uint64_t) * key.size);
+		delete[] eKey.key;
+		eKey = encrypt(contacts[i]->getLastName());
+		out.write((char*)&eKey.size, sizeof(std::uint32_t));
+		out.write((char*)eKey.key, sizeof(std::uint64_t) * eKey.size);
+		delete[] eKey.key;
+		eKey = encrypt(contacts[i]->getLogin());
+		out.write((char*)&eKey.size, sizeof(std::uint32_t));
+		out.write((char*)eKey.key, sizeof(std::uint64_t) * eKey.size);
+		delete[] eKey.key;
+		eKey = encrypt(contacts[i]->getNickName());
+		out.write((char*)&eKey.size, sizeof(std::uint32_t));
+		out.write((char*)eKey.key, sizeof(std::uint64_t) * eKey.size);
+		delete[] eKey.key;
+		eKey = encrypt(contacts[i]->getPostal());
+		out.write((char*)&eKey.size, sizeof(std::uint32_t));
+		out.write((char*)eKey.key, sizeof(std::uint64_t) * eKey.size);
+		delete[] eKey.key;
+		eKey = encrypt(contacts[i]->getEmail());
+		out.write((char*)&eKey.size, sizeof(std::uint32_t));
+		out.write((char*)eKey.key, sizeof(std::uint64_t) * eKey.size);
+		delete[] eKey.key;
+		eKey = encrypt(contacts[i]->getFav());
+		out.write((char*)&eKey.size, sizeof(std::uint32_t));
+		out.write((char*)eKey.key, sizeof(std::uint64_t) * eKey.size);
+		delete[] eKey.key;
+		eKey = encrypt(contacts[i]->getUnder());
+		out.write((char*)&eKey.size, sizeof(std::uint32_t));
+		out.write((char*)eKey.key, sizeof(std::uint64_t) * eKey.size);
+		delete[] eKey.key;
+		eKey = encrypt(contacts[i]->getDarkest());
+		out.write((char*)&eKey.size, sizeof(std::uint32_t));
+		out.write((char*)eKey.key, sizeof(std::uint64_t) * eKey.size);
+		delete[] eKey.key;
+		out.write((char*)&contacts[i]->getMonth(), sizeof(std::uint32_t));
+		out.write((char*)&contacts[i]->getDay(), sizeof(std::uint32_t));
+		out.write((char*)&contacts[i]->getYear(), sizeof(std::uint32_t));
+		out.write((char*)&contacts[i]->getNumber(), sizeof(std::uint32_t));
 		delete contacts[i];
 	}
 	delete[] contacts;
