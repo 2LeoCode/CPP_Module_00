@@ -6,7 +6,7 @@
 /*   By: lsuardi <lsuardi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 00:23:45 by lsuardi           #+#    #+#             */
-/*   Updated: 2021/01/14 20:24:18 by lsuardi          ###   ########.fr       */
+/*   Updated: 2021/01/14 21:44:52 by lsuardi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ int				main(void)
 			if (quit)
 				return (0);
 			if (pass.length() < 5)
-				std::cout << ">PASSWORD MUST BE AT LEAST 5 CHARACTERS LONG" << std::endl;
+				std::cout << "PASSWORD MUST BE AT LEAST 5 CHARACTERS LONG" << std::endl;
 		}
 		while (pass.length() < 5);
 		key = encrypt(pass);
